@@ -6,10 +6,10 @@ import tkinter as tk
 global root
 Person_name = ""
 predicted=0
+
 def SayName(a):
     engine.say("Hello " + str(a))
     engine.runAndWait()
-    os.system('python UI1.py')
 
 size = 4
 haar_file = 'haarcascade_frontalface_default.xml'
@@ -26,17 +26,10 @@ for (subdirs, dirs, files) in os.walk(datasets):
         subjectpath = os.path.join(datasets, subdir)
         for filename in os.listdir(subjectpath):
             path = subjectpath + '/' + filename
-            print(path)
             lable = id
             images.append(cv2.imread(path, 0))
             lables.append(int(lable))
-            # tp = cv2.imread(path)
-            # if (tp is not None):
-            #     cv2.cvtColor(tp, cv2.COLOR_BGR2GRAY)
-            #     print("error")
         id += 1
-
-
 (width, height) = (130, 100)
 
 # Create a Numpy array from the two lists above
@@ -58,6 +51,7 @@ root = tk.Tk()
 def back():
     cv2.destroyAllWindows()
     root.destroy()
+    exit()
 
 def display(row):
     root.title("Details")
@@ -102,13 +96,13 @@ while True:
         # Try to recognize the face
         prediction = model.predict(face_resize)
         cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 3)
-        if predicted != 1:
+        if predicted!=1:
             if prediction[1] < 500:
                 cv2.putText(im, '% s - %.0f' % (names[prediction[0]], prediction[1]), (x - 10, y - 10),
                             cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0))
                 Person_name = names[prediction[0]]
                 SayName(Person_name)
-                predicted = 1
+                predicted=1
             else:
                 cv2.putText(im, 'not recognized', (x - 10, y - 10), cv2.FONT_HERSHEY_PLAIN, 1, (0, 255, 0))
 
@@ -117,7 +111,6 @@ while True:
     if predicted == 1:
         insert_db()
         cv2.destroyAllWindows()
-        webcam.release()
         os.system('python UI1.py')
 
     key = cv2.waitKey(10)

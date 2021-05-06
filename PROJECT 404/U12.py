@@ -3,7 +3,6 @@ from tkinter import *
 from PIL import ImageTk, Image
 import os
 
-
 window=tk.Tk()
 window.title("Person Identifier")
 window.geometry('300x200')
@@ -11,7 +10,6 @@ window.config(bg='#040C23')
 img = ImageTk.PhotoImage(Image.open('FCS.png'))
 panel = Label(window, image = img, bd=0)
 panel.grid(row=0, column=1)
-
 
 def register():
     window.destroy()

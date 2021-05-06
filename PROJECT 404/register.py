@@ -52,17 +52,17 @@ try:
         # if you've any other camera
         # attached use '1' like this
         face_cascade = cv2.CascadeClassifier(haar_file)
-        webcam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        webcam = cv2.VideoCapture(0)
 
         # The program loops until it has 30 images of the face.
         count = 1
         while count < 30:
             (_, im) = webcam.read()
-            gray1 = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray1, 1.3, 4)
+            gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, 1.3, 4)
             for (x, y, w, h) in faces:
                 cv2.rectangle(im, (x, y), (x + w, y + h), (255, 0, 0), 2)
-                face = gray1[y:y + h, x:x + w]
+                face = gray[y:y + h, x:x + w]
                 face_resize = cv2.resize(face, (width, height))
                 cv2.imwrite('% s/% s.png' % (path, count), face_resize)
             count += 1
@@ -73,7 +73,6 @@ try:
                 break
         window1.destroy()
         cv2.destroyAllWindows()
-        cap.release()
         os.system('python UI1.py')
 
 except(Exception) as e:
